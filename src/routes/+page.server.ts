@@ -1,12 +1,11 @@
 import type { PageServerLoad, Actions } from './$types';
-import { invalidateAll }  from '$app/navigation';
 import { fail } from '@sveltejs/kit';
 
 import questions from './quiz.server';
-const MINQUESTIONID  = 0;
-const MAXQUESTIONID = 1141;
+const MIN_QUESTION_ID  = 0;
+const MAX_QUESTION_ID = 1141;
 export const load = (() => {
-  const questionIndex = Math.floor(Math.random() * (MAXQUESTIONID - MINQUESTIONID + 1)) + MINQUESTIONID;
+  const questionIndex = Math.floor(Math.random() * (MAX_QUESTION_ID - MIN_QUESTION_ID + 1)) + MIN_QUESTION_ID;
   return {
     question: { question: questions[questionIndex].question,
       options: questions[questionIndex].options,
@@ -24,12 +23,12 @@ export const actions = {
 	    return fail(401, { message: 'Invalid data' })
 	  }
 
-    const previousQuestion = questions.find((q) => q.questionNumber === question);
+    const previousQuestion = questions.find((q) => q.questionNumber === question)!;
     if(answers.length !== previousQuestion.correctAnswer.length || !previousQuestion.correctAnswer.every((answer) => answers.includes(answer))) {
       return fail(401, { message: 'Invalid answer, correct answer is ' + previousQuestion.correctAnswer.join(', ') });
     }
     const answeredQuestions = JSON.parse(atob(token));
-    const unansweredQuestions = questions.filter((question) => !answeredQuestions.includes(question.questionNumbers));
+    const unansweredQuestions = questions.filter((question) => !answeredQuestions.includes(question.questionNumber));
     const nextQuestionIndex = Math.floor(Math.random() * unansweredQuestions.length);
     const newQuestion = unansweredQuestions[nextQuestionIndex];
 		return { question: {

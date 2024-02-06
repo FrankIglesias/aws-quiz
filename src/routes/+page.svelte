@@ -10,7 +10,7 @@
     checked: false
   }));
   let questionCount = 0;
-  let answers = [];
+  let answers: boolean[] = [];
   let token = data.token;
   let errorCount = 0;
   let help = "";
@@ -27,7 +27,6 @@
       })
     });
 
-    /** @type {import('@sveltejs/kit').ActionResult} */
     const parsed = deserialize(await response.text());
     if (errorCount === 0) {
       answers.push(parsed.type === "success");
@@ -49,7 +48,7 @@
       if (errorCount > 3) {
         help = parsed.data.message;
       }
-      question.options = question.options.map((option, i) => ({
+      question.options = question.options.map((option) => ({
         ...option,
         checked: false
       }));
