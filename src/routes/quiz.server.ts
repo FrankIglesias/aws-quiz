@@ -10386,7 +10386,7 @@ export default [
   },
   {
     "questionNumber": 770,
-    "question": "What is an advantage of using the AWS Cloud over a traditional on-premises solution?",
+    "question": "What is an advantage of using the AWS Cloud over a traditional on-premises solution? (Select Two)",
     "options": [
       "A. Users do not have to guess about future capacity needs.",
       "B. Users can utilize existing hardware contracts for purchases.",
